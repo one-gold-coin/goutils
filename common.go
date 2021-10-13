@@ -15,6 +15,9 @@ func Md5(encrypt string) string {
 
 //是否邮箱
 func IsMail(mail string) bool {
+	if mail == "" {
+		return false
+	}
 	isMatch, err := regexp.MatchString("^([.a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((.[a-zA-Z0-9_-]{2,10}){1,3})$", mail)
 	if err != nil {
 		return false
@@ -28,6 +31,9 @@ func IsMail(mail string) bool {
 
 //是否手机号，11位数字
 func IsMobile(str string) bool {
+	if str == "" {
+		return false
+	}
 	isMatch, err := regexp.MatchString("^1[0-9]{10}$", str)
 	if err != nil {
 		return false
@@ -40,8 +46,8 @@ func IsMobile(str string) bool {
 }
 
 // 返回空结构体
-func EmptyStruct() struct{} {
-	return struct{}{}
+func EmptyStruct() *struct{} {
+	return &struct{}{}
 }
 
 // 返回空结构体
@@ -51,5 +57,8 @@ func EmptySlice() []struct{} {
 
 // IsNil
 func IsNil(d interface{}) bool {
+	if d == nil {
+		return true
+	}
 	return reflect.ValueOf(d).IsNil()
 }
