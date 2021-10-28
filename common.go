@@ -46,13 +46,13 @@ func IsMobile(str string) bool {
 }
 
 // 返回空结构体
-func EmptyStruct() *struct{} {
-	return &struct{}{}
+func EmptyStruct() interface{} {
+	return "{}"
 }
 
 // 返回空结构体
-func EmptySlice() []struct{} {
-	return []struct{}{}
+func EmptySlice() interface{} {
+	return "[]"
 }
 
 // IsNil
