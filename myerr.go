@@ -12,14 +12,25 @@ func MyList() *goutils.MyError {
 */
 
 // errCode 0-成功 非0-失败
-func MyErr(code ...int) *MyError {
-	errCode := 0
-	if len(code) > 0 {
-		errCode = code[0]
+func MyErr(params ...interface{}) *MyError {
+	err := &MyError{
+		ErrCode: 0,
+		ErrMsg:"",
+		ExtData: "{}",
 	}
-	return &MyError{
-		ErrCode: errCode,
+	switch len(params) {
+	case 1:
+		err.ErrCode = params[0].(int)
+	case 2:
+		err.ErrCode = params[0].(int)
+		err.ErrMsg = params[1].(string)
+	case 3:
+		err.ErrCode = params[0].(int)
+		err.ErrMsg = params[1].(string)
+		err.ExtData = params[2]
+	default:
 	}
+	return err
 }
 
 type MyError struct {
