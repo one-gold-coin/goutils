@@ -11,6 +11,11 @@ func StrConv(val string) *StringVal {
 
 type StringVal struct {
 	Val string
+	Err error
+}
+
+func (m *StringVal) Error() error {
+	return m.Err
 }
 
 func (m *StringVal) String() string {
@@ -18,50 +23,60 @@ func (m *StringVal) String() string {
 }
 
 func (m *StringVal) StrSlice() []string {
-	valList := strings.Split(m.Val, ",")
-	return valList
+	v := strings.Split(m.Val, ",")
+	return v
 }
 
 func (m *StringVal) Int() int {
 	if m.Val == "" {
 		return 0
 	}
-	valInt, _ := strconv.Atoi(m.Val)
-	return valInt
+	v, err := strconv.Atoi(m.Val)
+	m.Err = err
+	return v
 }
 
 func (m *StringVal) IntSlice() []int {
 	if m.Val == "" {
 		return nil
 	}
-	valList := strings.Split(m.Val, ",")
-	valIntList := make([]int, 0)
-	for _, s := range valList {
-		valInt, _ := strconv.Atoi(s)
-		valIntList = append(valIntList, valInt)
+	vList := strings.Split(m.Val, ",")
+	vIList := make([]int, 0)
+	for _, s := range vList {
+		vI, err := strconv.Atoi(s)
+		if err != nil {
+			m.Err = err
+			return nil
+		}
+		vIList = append(vIList, vI)
 	}
-	return valIntList
+	return vIList
 }
 
 func (m *StringVal) Int64() int64 {
 	if m.Val == "" {
 		return 0
 	}
-	valInt64, _ := strconv.ParseInt(m.Val, 10, 64)
-	return valInt64
+	vI, err := strconv.ParseInt(m.Val, 10, 64)
+	m.Err = err
+	return vI
 }
 
 func (m *StringVal) Int64Slice() []int64 {
 	if m.Val == "" {
 		return nil
 	}
-	valList := strings.Split(m.Val, ",")
-	valIntList := make([]int64, 0)
-	for _, s := range valList {
-		valInt64, _ := strconv.ParseInt(s, 10, 64)
-		valIntList = append(valIntList, valInt64)
+	vList := strings.Split(m.Val, ",")
+	vIList := make([]int64, 0)
+	for _, s := range vList {
+		vI, err := strconv.ParseInt(s, 10, 64)
+		if err != nil {
+			m.Err = err
+			return nil
+		}
+		vIList = append(vIList, vI)
 	}
-	return valIntList
+	return vIList
 }
 
 // StringIsEmpty 字符串是否为空
